@@ -28,9 +28,7 @@ ALU_test
 Overflow的爭議
 ==============
 
-- 程式的設計是當運算AND/OR/NOT時，Ans的overflow一定是0，
-- 而當運算Addition/Subtraction時，Ans的overflow將會在計算發生溢位時變成1，其餘皆是0
-- 當運算Set on less than時，程式預設overflow一定是0，但由於這部分比較有爭議，因此可以將第10行的`#define SET_ON_LESS_THAN_NO_OVERFLOW`移除，則程式就會在運算set on less than且發生溢位時將ans的overflow設為1。
+根據助教的解釋，overflow只看加法器的結果，而不管operation是什麼。
 
 參考資料
 ========
