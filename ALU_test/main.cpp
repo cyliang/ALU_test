@@ -7,6 +7,7 @@
 #include <queue>
 #include <string>
 
+#define SET_ON_LESS_THAN_NO_OVERFLOW
 #define TEST_FILE "test1_ALU.txt"
 #define ANS_FILE "ans1_ALU.txt"
 using namespace std;
@@ -73,6 +74,9 @@ int main() {
 		case 6:
 			prefix = "01011";
 			answer = src1 < src2 ? 1 : 0;
+#ifndef SET_ON_LESS_THAN_NO_OVERFLOW
+			overflow = src1 > 0 && src2 < 0 && answer < 0 || src1 < 0 && src2 > 0 && answer > 0;
+#endif
 			break;
 		}
 
