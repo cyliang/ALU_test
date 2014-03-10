@@ -7,7 +7,6 @@
 #include <queue>
 #include <string>
 
-#define SET_ON_LESS_THAN_NO_OVERFLOW
 #define TEST_FILE "test1_ALU.txt"
 #define ANS_FILE "ans1_ALU.txt"
 using namespace std;
@@ -52,12 +51,10 @@ int main() {
 		case 1:
 			prefix = "00010";
 			answer = src1 + src2;
-			overflow = src1 > 0 && src2 > 0 && answer < 0 || src1 < 0 && src2 < 0 && answer > 0;
 			break;
 		case 2:
 			prefix = "01010";
 			answer = src1 - src2;
-			overflow = src1 > 0 && src2 < 0 && answer < 0 || src1 < 0 && src2 > 0 && answer > 0;
 			break;
 		case 3:
 			prefix = "00000";
@@ -74,11 +71,13 @@ int main() {
 		case 6:
 			prefix = "01011";
 			answer = src1 < src2 ? 1 : 0;
-#ifndef SET_ON_LESS_THAN_NO_OVERFLOW
-			overflow = src1 > 0 && src2 < 0 && answer < 0 || src1 < 0 && src2 > 0 && answer > 0;
-#endif
 			break;
 		}
+
+		if (operation != 5)
+			overflow = prefix[1] == '1' ?
+			(src1 > 0 && src2 < 0 && (src1 - src2) < 0 || src1 < 0 && src2 > 0 && (src1 - src2) > 0) :
+			(src1 > 0 && src2 > 0 && (src1 + src2) < 0 || src1 < 0 && src2 < 0 && (src1 + src2) > 0);
 
 		bitset<32> src1_bit(src1), src2_bit(src2), ans_bit(answer);
 		string test_str = prefix + src1_bit.to_string() + src2_bit.to_string();
